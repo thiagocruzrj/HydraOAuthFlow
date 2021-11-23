@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+
+ hydra:
+   image: oryd/hydra:latest
+   ports:
+     - "4444:4444" # Public
+     - "4445:4445" # Admin
+   command:
+     serve all --dangerous-force-http
+   environment:
+     - URLS_SELF_ISSUER=http://127.0.0.1:4444
+     - URLS_CONSENT=http://127.0.0.1:3000/consent
+     - URLS_LOGIN=http://127.0.0.1:3000/login
+     - URLS_LOGOUT=http://127.0.0.1:3000/logout
+     - DSN=memory
+     - SECRETS_SYSTEM=youReallyNeedToChangeThis
+     - OIDC_SUBJECT_IDENTIFIERS_SUPPORTED_TYPES=public,pairwise
+     - OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT=youReallyNeedToChangeThis
+   restart: unless-stopped
